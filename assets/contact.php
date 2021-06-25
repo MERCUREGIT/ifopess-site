@@ -1,4 +1,5 @@
 <?php
+echo "<script>alert('it works')</script>";
 
 if(!$_POST) exit;
 
@@ -14,7 +15,6 @@ $lastname_contact    = $_POST['lastname_contact'];
 $email_contact    = $_POST['email_contact'];
 $phone_contact   = $_POST['phone_contact'];
 $message_contact = $_POST['message_contact'];
-$verify_contact   = $_POST['verify_contact'];
 
 if(trim($name_contact) == '') {
 	echo '<div class="error_message">You must enter your Name.</div>';
@@ -37,12 +37,6 @@ if(trim($name_contact) == '') {
 } else if(trim($message_contact) == '') {
 	echo '<div class="error_message">Please enter your message.</div>';
 	exit();
-} else if(!isset($verify_contact) || trim($verify_contact) == '') {
-	echo '<div class="error_message"> Please enter the verification number.</div>';
-	exit();
-} else if(trim($verify_contact) != '4') {
-	echo '<div class="error_message">The verification number you entered is incorrect.</div>';
-	exit();
 }
 
 if(get_magic_quotes_gpc()) {
@@ -51,16 +45,17 @@ if(get_magic_quotes_gpc()) {
 
 
 //$address = "HERE your email address";
-$address = "info@domain.com";
+$address = "contact@ifopess.org";
+
 
 
 // Below the subject of the email
-$e_subject = 'You\'ve been contacted by ' . $name_contact . '.';
+$e_subject = 'Vous-avez été contacter par ' . $name_contact . '.';
 
 // You can change this if you feel that you need to.
-$e_body = "You have been contacted by $name_contact $lastname_contact with additional message is as follows." . PHP_EOL . PHP_EOL;
+$e_body = "Vous-avez été contacter par $name_contact $lastname_contact avec un message supplémentaire." . PHP_EOL . PHP_EOL;
 $e_content = "\"$message_contact\"" . PHP_EOL . PHP_EOL;
-$e_reply = "You can contact $lastname_contact via email, $email_contact or via phone $phone_contact";
+$e_reply = "Vous pouvez contacter $lastname_contact par e-mail, $email_contact ou par téléphone $phone_contact";
 
 $msg = wordwrap( $e_body . $e_content . $e_reply, 70 );
 
@@ -71,21 +66,21 @@ $headers .= "Content-type: text/plain; charset=utf-8" . PHP_EOL;
 $headers .= "Content-Transfer-Encoding: quoted-printable" . PHP_EOL;
 
 $user = "$email_contact";
-$usersubject = "Thank You";
-$userheaders = "From: info@udema.com\n";
-$usermessage = "Thank you for contact UDEMA. We will reply shortly!";
+$usersubject = "Merci à vous";
+$userheaders = "From: contact@ifopess.org\n";
+$usermessage = "Merci d'avoir contacté IFOPESS. Nous vous répondrons sous peu !";
 mail($user,$usersubject,$usermessage,$userheaders);
 
 if(mail($address, $e_subject, $msg, $headers)) {
 
-	// Success message
+	// Message de réussite
 	echo "<div id='success_page' style='padding:25px 0'>";
-	echo "<strong >Email Sent.</strong><br>";
-	echo "Thank you <strong>$name_contact</strong>,<br> your message has been submitted. We will contact you shortly.";
+	echo "<strong >E-mail envoyé.</strong><br>" ;
+	echo "Merci <strong>$name_contact</strong>,<br> votre message a été soumis. Nous vous contacterons sous peu.";
 	echo "</div>";
 
 } else {
 
-	echo 'ERROR!';
+	echo 'ERREURE!';
 
 }
